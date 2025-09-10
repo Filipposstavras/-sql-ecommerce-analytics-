@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.egg-info/
+*.egg
+.env
+.venv/
+venv/
+ENV/
+*.sqlite3
+ecom.db
+
+# Jupyter / notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# VSCode / IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Exports / reports (if you regenerate them, keep CSVs but ignore temp)
+exports/*.tmp
+exports/*.log
+
+# Power BI
+*.pbix
+*.pbit
+
+# Zip archives
+*.zip
