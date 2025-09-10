@@ -1,46 +1,63 @@
-E-Commerce Sales & Customer Analytics
+E-Commerce Sales & Customer Analytics (SQL + Python + Power BI)
 
-SQL • Python • Power BI
+This project showcases end-to-end analytics on a small e-commerce dataset using SQL, Python, and Power BI. It demonstrates both basic and advanced SQL queries, data loading/automation with Python, and visualization readiness for BI tools.
 
-This project demonstrates how to analyze an e-commerce business end-to-end using SQL, Python, and Power BI.
-It includes a relational database schema, realistic seed data, analytical SQL queries, and ready-to-use exports for BI dashboards.
+🔹 Key Skills Demonstrated
 
-🔹 Project Objectives
+Database design & querying
 
-Design a normalized database schema for customers, products, orders, and payments.
+Normalized schema with customers, products, orders, order_items, payments
 
-Use SQL queries (basic → advanced) to answer core business questions.
+Joins, GROUP BY, window functions, CTEs, and aggregates
 
-Integrate with Python for data loading, automation, and CSV exports.
+Analytical SQL
 
-Visualize insights in Power BI dashboards for stakeholders.
+Revenue trends, customer lifetime value (LTV), average order value (AOV)
+
+Refund rates, repeat purchase rate, cohort analysis
+
+Market-basket analysis (product pairs), retention metrics
+
+Python integration
+
+Data loading with pandas + SQLAlchemy
+
+Scripted schema creation and seed data insertion
+
+Export of query results as CSV for downstream use
+
+Power BI dashboarding
+
+Visuals for revenue, category share, AOV by country, top customers, and product pairs
+
+Direct import of exported CSVs into interactive dashboards
 
 🔹 Business Questions Answered
 
-Monthly revenue & order counts
+Monthly revenue & orders
 
 Revenue by category + share of total
 
-Top 10 customers by lifetime value (LTV)
+Top 10 customers by LTV
 
-Average Order Value (AOV) by country
+AOV by country
 
 Refund rate (%) by month
 
-Repeat purchase rate (customers with ≥2 orders)
+Repeat purchase rate
 
-First product purchased by new customer cohorts
+First product purchased by new customers (signup cohorts)
 
-Frequently purchased product pairs (cross-sell analysis)
+Product pairs frequently bought together
 
-Median time to second order (retention metric)
+Median time to second order
 
 7-day moving average of revenue
 
 🔹 Tech Stack
 
-SQL: PostgreSQL (schema + queries), SQLite (for quick demo)
+SQL: PostgreSQL (schema + queries), SQLite (demo)
 
-Python: pandas, SQLAlchemy for data loading & exports
+Python: pandas, SQLAlchemy
 
-BI: Power BI for dashboards
+BI: Power BI (CSV import + visuals)
