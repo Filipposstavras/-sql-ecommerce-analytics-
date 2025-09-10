@@ -1,3 +1,10 @@
+# E-Commerce Sales & Customer Analytics
+_SQL • Python • Power BI_
+
+This project showcases end-to-end analytics on a small e-commerce dataset using SQL, Python, and Power BI.  
+It demonstrates both basic and advanced SQL queries, automated data loading with Python, and visualization readiness for BI tools.  
+
+------------------------------------------------------------
 Key Skills Demonstrated
 - Database design & querying
   - Normalized schema with customers, products, orders, order_items, payments
@@ -20,6 +27,7 @@ Key Skills Demonstrated
   - Top customers and product pairs
   - Direct import of exported CSVs into interactive dashboards
 
+------------------------------------------------------------
 Business Questions Answered
 - Monthly revenue & orders
 - Revenue by category + share of total
@@ -32,14 +40,16 @@ Business Questions Answered
 - Median time to second order
 - 7-day moving average of revenue
 
+------------------------------------------------------------
 Tech Stack
 - SQL: PostgreSQL (schema + queries), SQLite (demo)
 - Python: pandas, SQLAlchemy
 - BI: Power BI (CSV import + visuals)
 
-  How to Run
+------------------------------------------------------------
+How to Run
 - Clone the repository
-  - git clone https://github.com/Filipposstavras/sql-ecommerce-analytics.git
+  - git clone https://github.com/your-username/sql-ecommerce-analytics.git
   - cd sql-ecommerce-analytics
 
 - (Optional) Create a virtual environment
@@ -69,4 +79,3 @@ Tech Stack
     - Bar chart: AOV by country
     - Table: Top 10 customers by LTV
     - Matrix: product pairs frequently bought together
-
