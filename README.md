@@ -1,5 +1,5 @@
 # E-Commerce Sales & Customer Analytics
-_SQL • Python 
+SQL • Python 
 
 This project showcases end-to-end analytics on a small e-commerce dataset using SQL, Python, and Power BI.  
 It demonstrates both basic and advanced SQL queries, automated data loading with Python, and visualization readiness for BI tools.  
