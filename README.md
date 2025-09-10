@@ -1,5 +1,5 @@
 # E-Commerce Sales & Customer Analytics
-_SQL • Python • Power BI_
+_SQL • Python 
 
 This project showcases end-to-end analytics on a small e-commerce dataset using SQL, Python, and Power BI.  
 It demonstrates both basic and advanced SQL queries, automated data loading with Python, and visualization readiness for BI tools.  
@@ -67,15 +67,4 @@ How to Run
   - Open queries.sql in your SQL client (PostgreSQL or SQLite)
   - Execute the queries to generate insights
 
-- Review exports
-  - Query results are also available in the /exports folder as CSV files
-  - These files can be directly imported into Power BI
 
-- Build Power BI dashboards
-  - Import CSVs from /exports
-  - Suggested visuals:
-    - Line chart: monthly revenue (with 7-day MA)
-    - Bar chart: revenue by category + % share
-    - Bar chart: AOV by country
-    - Table: Top 10 customers by LTV
-    - Matrix: product pairs frequently bought together
