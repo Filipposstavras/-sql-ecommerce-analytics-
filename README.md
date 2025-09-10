@@ -49,7 +49,7 @@ Tech Stack
 ------------------------------------------------------------
 How to Run
 - Clone the repository
-  - git clone https://github.com/your-username/sql-ecommerce-analytics.git
+  - git clone https://github.com/Filipposstavras/sql-ecommerce-analytics.git
   - cd sql-ecommerce-analytics
 
 - (Optional) Create a virtual environment
