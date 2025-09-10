@@ -1,0 +1,84 @@
+=== customers ===
+id,first_name,last_name,email,signup_date,country
+1,Anna,Papadopoulou,anna@example.com,2024-01-15,Greece
+2,John,Smith,john@example.com,2024-02-10,UK
+3,Maria,Rossi,maria@example.com,2024-02-25,Italy
+4,Karl,Müller,karl@example.com,2024-03-05,Germany
+5,Sofia,Lopez,sofia@example.com,2024-03-15,Spain
+6,Nikos,Georgiou,nikos@example.com,2024-04-01,Greece
+7,Emma,Johnson,emma@example.com,2024-04-12,USA
+8,Luca,Bianchi,luca@example.com,2024-04-20,Italy
+9,Helen,Baker,helen@example.com,2024-05-01,UK
+10,George,Papadakis,george@example.com,2024-05-08,Greece
+
+=== products ===
+id,name,category,unit_price
+1,Wireless Mouse,Electronics,20.00
+2,Keyboard,Electronics,35.00
+3,Laptop,Electronics,800.00
+4,Coffee Mug,Home,10.00
+5,Notebook,Stationery,5.00
+6,Pen,Stationery,2.00
+7,Desk Lamp,Home,25.00
+8,Headphones,Electronics,60.00
+9,Water Bottle,Home,12.00
+10,Backpack,Accessories,50.00
+
+=== orders ===
+id,customer_id,order_date,status
+1,1,2024-03-01 10:15:00,paid
+2,2,2024-03-02 14:20:00,paid
+3,3,2024-03-03 09:05:00,refunded
+4,4,2024-03-05 16:45:00,paid
+5,5,2024-03-07 11:10:00,paid
+6,6,2024-03-10 18:30:00,paid
+7,7,2024-04-01 10:00:00,paid
+8,8,2024-04-05 15:40:00,cancelled
+9,9,2024-04-08 12:20:00,paid
+10,10,2024-04-15 09:00:00,paid
+11,1,2024-04-20 11:30:00,paid
+12,2,2024-04-22 14:10:00,paid
+13,3,2024-04-25 17:00:00,paid
+14,4,2024-05-01 13:25:00,paid
+15,5,2024-05-05 15:50:00,paid
+
+=== order_items ===
+order_id,product_id,quantity,unit_price
+1,1,1,20.00
+1,2,1,35.00
+2,3,1,800.00
+3,4,2,10.00
+4,5,5,5.00
+4,6,10,2.00
+5,7,1,25.00
+6,8,2,60.00
+7,3,1,800.00
+8,9,1,12.00
+9,10,1,50.00
+10,1,1,20.00
+10,4,2,10.00
+11,2,1,35.00
+11,5,3,5.00
+12,6,5,2.00
+12,7,1,25.00
+13,8,1,60.00
+14,9,2,12.00
+14,10,1,50.00
+15,3,1,800.00
+
+=== payments ===
+order_id,payment_method,amount,paid_at
+1,Credit Card,55.00,2024-03-01 10:16:00
+2,PayPal,800.00,2024-03-02 14:21:00
+3,Credit Card,20.00,2024-03-03 09:06:00
+4,Credit Card,45.00,2024-03-05 16:46:00
+5,Debit Card,25.00,2024-03-07 11:11:00
+6,PayPal,120.00,2024-03-10 18:31:00
+7,Credit Card,800.00,2024-04-01 10:01:00
+9,Debit Card,50.00,2024-04-08 12:21:00
+10,Credit Card,40.00,2024-04-15 09:01:00
+11,PayPal,50.00,2024-04-20 11:31:00
+12,Credit Card,35.00,2024-04-22 14:11:00
+13,Debit Card,60.00,2024-04-25 17:01:00
+14,PayPal,74.00,2024-05-01 13:26:00
+15,Credit Card,800.00,2024-05-05 15:51:00

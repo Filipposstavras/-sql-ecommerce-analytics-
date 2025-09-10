@@ -1,0 +1,58 @@
+SECTION 1 — SCHEMA (PostgreSQL)
+------------------------------------------------------------
+-- Drop in dependency order
+DROP TABLE IF EXISTS payments;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS customers;
+
+-- Customers
+CREATE TABLE customers(
+  id           SERIAL PRIMARY KEY,
+  first_name   TEXT NOT NULL,
+  last_name    TEXT NOT NULL,
+  email        TEXT UNIQUE,
+  signup_date  DATE NOT NULL,
+  country      TEXT NOT NULL
+);
+
+-- Products
+CREATE TABLE products(
+  id          SERIAL PRIMARY KEY,
+  name        TEXT NOT NULL,
+  category    TEXT NOT NULL,
+  unit_price  NUMERIC(12,2) NOT NULL CHECK (unit_price >= 0)
+);
+
+-- Orders (header)
+CREATE TABLE orders(
+  id           SERIAL PRIMARY KEY,
+  customer_id  INT NOT NULL REFERENCES customers(id),
+  order_date   TIMESTAMP NOT NULL,
+  status       TEXT NOT NULL CHECK (status IN ('paid','refunded','cancelled','pending'))
+);
+
+-- Order lines
+CREATE TABLE order_items(
+  order_id    INT REFERENCES orders(id) ON DELETE CASCADE,
+  product_id  INT REFERENCES products(id),
+  quantity    INT NOT NULL CHECK (quantity > 0),
+  unit_price  NUMERIC(12,2) NOT NULL CHECK (unit_price >= 0),
+  PRIMARY KEY (order_id, product_id)
+);
+
+-- Payments (1:1 simplified)
+CREATE TABLE payments(
+  order_id        INT PRIMARY KEY REFERENCES orders(id) ON DELETE CASCADE,
+  payment_method  TEXT NOT NULL,
+  amount          NUMERIC(12,2) NOT NULL CHECK (amount >= 0),
+  paid_at         TIMESTAMP
+);
+
+-- Helpful indexes
+CREATE INDEX IF NOT EXISTS idx_orders_order_date ON orders(order_date);
+CREATE INDEX IF NOT EXISTS idx_orders_status     ON orders(status);
+CREATE INDEX IF NOT EXISTS idx_payments_paid_at  ON payments(paid_at);
+CREATE INDEX IF NOT EXISTS idx_customers_country ON customers(country);
+CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);

@@ -1,0 +1,119 @@
+SECTION 2 — ANALYTICAL QUERIES (PostgreSQL)
+------------------------------------------------------------
+
+-- Helper CTE for paid orders
+WITH paid AS (
+  SELECT o.id, o.customer_id, o.order_date, p.amount, p.paid_at
+  FROM orders o JOIN payments p ON p.order_id = o.id
+  WHERE o.status = 'paid'
+)
+
+-- 1) Monthly revenue & orders (last 12 months if you want: add WHERE paid_at >= DATE_TRUNC('month', CURRENT_DATE - INTERVAL '12 months'))
+SELECT DATE_TRUNC('month', paid_at)::date AS month,
+       SUM(amount) AS revenue,
+       COUNT(*) AS orders
+FROM paid
+GROUP BY 1 ORDER BY 1;
+
+-- 2) Revenue by category + share of total
+WITH line_rev AS (
+  SELECT oi.order_id, pr.category, (oi.quantity*oi.unit_price) AS rev
+  FROM order_items oi JOIN products pr ON pr.id = oi.product_id
+), cat_rev AS (
+  SELECT lr.category, SUM(lr.rev) AS revenue
+  FROM line_rev lr JOIN paid p ON p.id = lr.order_id
+  GROUP BY lr.category
+), total AS (SELECT SUM(revenue) AS tot FROM cat_rev)
+SELECT c.category, c.revenue,
+       ROUND(c.revenue / NULLIF(t.tot,0) * 100.0, 2) AS pct_share
+FROM cat_rev c CROSS JOIN total t
+ORDER BY revenue DESC;
+
+-- 3) Top 10 customers by LTV
+WITH ltv AS (
+  SELECT customer_id, SUM(amount) AS ltv
+  FROM paid GROUP BY customer_id
+)
+SELECT c.id, c.first_name, c.last_name, c.country, l.ltv
+FROM ltv l JOIN customers c ON c.id=l.customer_id
+ORDER BY l.ltv DESC LIMIT 10;
+
+-- 4) AOV by country
+WITH order_amount AS (SELECT id, customer_id, amount FROM paid)
+SELECT c.country, AVG(oa.amount)::NUMERIC(12,2) AS aov
+FROM order_amount oa JOIN customers c ON c.id=oa.customer_id
+GROUP BY c.country ORDER BY aov DESC;
+
+-- 5) Refund rate (%) by month
+WITH monthly AS (
+  SELECT DATE_TRUNC('month', o.order_date)::date AS month,
+         COUNT(*) FILTER (WHERE o.status IN ('paid','refunded')) AS billable,
+         COUNT(*) FILTER (WHERE o.status='refunded') AS refunded
+  FROM orders o GROUP BY 1
+)
+SELECT month,
+       CASE WHEN billable=0 THEN 0
+            ELSE ROUND(refunded::numeric/billable*100,2) END AS refund_rate_pct
+FROM monthly ORDER BY month;
+
+-- 6) Repeat purchase rate
+WITH cust_orders AS (
+  SELECT customer_id, COUNT(*) AS paid_orders FROM paid GROUP BY customer_id
+),
+den AS (SELECT COUNT(*) AS total_customers FROM customers),
+num AS (SELECT COUNT(*) AS repeaters FROM cust_orders WHERE paid_orders >= 2)
+SELECT n.repeaters, d.total_customers,
+       ROUND(n.repeaters::numeric/NULLIF(d.total_customers,0)*100,2) AS repeat_rate_pct
+FROM num n, den d;
+
+-- 7) First product purchased by new customers (cohort: signup month)
+WITH first_order AS (
+  SELECT customer_id, MIN(order_date) AS first_dt FROM paid GROUP BY customer_id
+),
+first_items AS (
+  SELECT fo.customer_id, fo.first_dt,
+         (ARRAY_AGG(oi.product_id ORDER BY oi.product_id))[1] AS first_product_id
+  FROM first_order fo
+  JOIN order_items oi ON oi.order_id = (
+    SELECT id FROM orders WHERE customer_id=fo.customer_id AND order_date=fo.first_dt ORDER BY id LIMIT 1
+  )
+  GROUP BY fo.customer_id, fo.first_dt
+)
+SELECT DATE_TRUNC('month', c.signup_date)::date AS cohort_month,
+       p.name AS product, COUNT(*) AS customers_count
+FROM first_items fi
+JOIN customers c ON c.id=fi.customer_id
+JOIN products p  ON p.id=fi.first_product_id
+GROUP BY cohort_month, p.name
+ORDER BY cohort_month, customers_count DESC;
+
+-- 8) Product pairs (cross-sell)
+WITH items AS (SELECT order_id, product_id FROM order_items),
+pairs AS (
+  SELECT i1.product_id AS p1, i2.product_id AS p2, COUNT(*) AS pair_count
+  FROM items i1 JOIN items i2 ON i1.order_id=i2.order_id AND i1.product_id < i2.product_id
+  GROUP BY 1,2
+)
+SELECT pa.name AS product_a, pb.name AS product_b, pair_count
+FROM pairs JOIN products pa ON pa.id=p1 JOIN products pb ON pb.id=p2
+ORDER BY pair_count DESC LIMIT 20;
+
+-- 9) Time-to-second-order (median days)
+WITH ords AS (
+  SELECT customer_id, order_date::date AS dt, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) AS rn
+  FROM paid
+),
+deltas AS (
+  SELECT o2.customer_id, (o2.dt - o1.dt) AS days_between
+  FROM ords o1 JOIN ords o2 ON o1.customer_id=o2.customer_id AND o1.rn=1 AND o2.rn=2
+)
+SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY days_between) AS median_days FROM deltas;
+
+-- 10) 7-day moving average of revenue
+WITH daily AS (
+  SELECT DATE_TRUNC('day', paid_at)::date AS day, SUM(amount) AS revenue
+  FROM paid GROUP BY 1
+)
+SELECT day,
+       AVG(revenue) OVER (ORDER BY day ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS ma7
+FROM daily ORDER BY day;
