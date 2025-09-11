@@ -1,8 +1,8 @@
 # E-Commerce Sales & Customer Analytics
 SQL • Python 
 
-This project showcases end-to-end analytics on a small e-commerce dataset using SQL, Python, and Power BI.  
-It demonstrates both basic and advanced SQL queries, automated data loading with Python, and visualisation readiness for BI tools.  
+This project showcases end-to-end analytics on a small e-commerce dataset using SQL.  
+It demonstrates both basic and advanced SQL queries.
 
 ------------------------------------------------------------
 Key Skills Demonstrated
@@ -37,29 +37,8 @@ Business Questions Answered
 - 7-day moving average of revenue
 
 ------------------------------------------------------------
-Tech Stack
-- SQL: PostgreSQL (schema + queries), SQLite (demo)
-- Python: pandas, SQLAlchemy
 
-------------------------------------------------------------
-How to Run
-- Clone the repository
-  - git clone https://github.com/Filipposstavras/sql-ecommerce-analytics.git
-  - cd sql-ecommerce-analytics
-
-- (Optional) Create a virtual environment
-  - python -m venv .venv
-  - source .venv/bin/activate   (Windows: .venv\Scripts\activate)
-
-- Install dependencies
-  - pip install -r requirements.txt
-
-- Load schema and seed data
-  - python load_and_run.py
-  - This will create the database (SQLite by default) and insert the CSV seed data
-
-- Run SQL queries
-  - Open queries.sql in your SQL client (PostgreSQL or SQLite)
+  - Open queries.txt in your SQL client (PostgreSQL or SQLite)
   - Execute the queries to generate insights
 
 
