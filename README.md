@@ -1,5 +1,5 @@
 # E-Commerce Sales & Customer Analytics
-SQL • Python 
+SQL 
 
 This project showcases end-to-end analytics on a small e-commerce dataset using SQL.  
 It demonstrates both basic and advanced SQL queries.
